@@ -1,0 +1,151 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="">
+    <meta name="author" content="">
+    <title>james - Checkout</title>
+    <!-- CSS FILES -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@100;300;400;700;900&display=swap" rel="stylesheet">
+    <link href="css/bootstrap.min.css" rel="stylesheet">
+    <link href="css/bootstrap-icons.css" rel="stylesheet">
+    <link rel="stylesheet" href="css/slick.css"/>
+    <link href="css/james css.css" rel="stylesheet">
+</head>
+<body>
+    <nav class="navbar navbar-expand-lg">
+        <div class="container">
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+
+            <a class="navbar-brand" href="home.html">
+                <strong><span>Little</span> Fashion</strong>
+            </a>
+
+            <div class="collapse navbar-collapse" id="navbarNav">
+                <ul class="navbar-nav mx-auto">
+                    <li class="nav-item">
+                        <a class="nav-link" href="home.html">Home</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="about.html">Story</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="products.html">Products</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="faq.html">FAQs</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="contact.html">Contact</a>
+                    </li>
+                </ul>
+                <div class="d-none d-lg-block">
+                    <a href="sign-in.html" class="bi-person custom-icon me-3"></a>
+                    <a href="cart.html" class="bi-bag custom-icon"></a>
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <main>
+        <section class="checkout section-padding">
+            <div class="container">
+                <div class="row">
+                    <div class="col-lg-8 col-12">
+                        <h2 class="mb-4">Your Cart</h2>
+                        <!-- Selected Cart Items -->
+                        <div id="checkout-items"></div>
+                    </div>
+                    <div class="col-lg-4 col-12">
+                        <h2 class="mb-4">Order Summary</h2>
+                        <p><strong>Total Price:</strong> $<span id="order-total">0.00</span></p>
+                        <a href="payment.html" class="btn custom-btn">Proceed to Payment</a>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <footer class="site-footer">
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-3 col-10 me-auto mb-4">
+                    <h4 class="text-white mb-3"><a href="home.html">james</a> Fashion</h4>
+                    <p class="copyright-text text-muted mt-lg-5 mb-4 mb-lg-0">Copyright © 2022 <strong>Little Fashion</strong></p>
+                    <p class="copyright-text">Designed by <a href="https://www.unknown-susp3nder.com/" target="_blank">unknown susp3nder</a></p>
+                </div>
+                <div class="col-lg-5 col-8">
+                    <h5 class="text-white mb-3">Sitemap</h5>
+                    <ul class="footer-menu d-flex flex-wrap">
+                        <li class="footer-menu-item"><a href="about.html" class="footer-menu-link">Story</a></li>
+                        <li class="footer-menu-item"><a href="products.html" class="footer-menu-link">Products</a></li>
+                        <li class="footer-menu-item"><a href="privacy-policy.html" class="footer-menu-link">Privacy policy</a></li>
+                        <li class="footer-menu-item"><a href="faq.html" class="footer-menu-link">FAQs</a></li>
+                        <li class="footer-menu-item"><a href="contact.html" class="footer-menu-link">Contact</a></li>
+                    </ul>
+                </div>
+                <div class="col-lg-3 col-4">
+                    <h5 class="text-white mb-3">Social</h5>
+                    <ul class="social-icon">
+                        <li><a href="#" class="social-icon-link bi-youtube"></a></li>
+                        <li><a href="#" class="social-icon-link bi-whatsapp"></a></li>
+                        <li><a href="#" class="social-icon-link bi-instagram"></a></li>
+                        <li><a href="#" class="social-icon-link bi-skype"></a></li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <!-- JAVASCRIPT FILES -->
+    <script src="js/jquery.min.js"></script>
+    <script src="js/bootstrap.bundle.min.js"></script>
+    <script src="js/Headroom.js"></script>
+    <script src="js/jQuery.headroom.js"></script>
+    <script src="js/slick.min.js"></script>
+    <script src="js/custom.js"></script>
+
+    <script>
+        function loadCartItems() {
+    const cartItemsDiv = document.getElementById('checkout-items');
+    const orderTotalElem = document.getElementById('order-total');
+    let totalPrice = 0;
+    const cartItems = JSON.parse(localStorage.getItem('cart')) || [];
+
+    cartItemsDiv.innerHTML = ''; // Clear previous content
+
+    if (cartItems.length === 0) {
+        cartItemsDiv.innerHTML = '<p>Your cart is empty.</p>';
+    } else {
+        cartItems.forEach((item, index) => {
+            const itemTotal = item.price * item.quantity;
+            totalPrice += itemTotal;
+
+            // Display selected product details
+            cartItemsDiv.innerHTML += `
+                <div class="checkout-item mb-3">
+                    <h5>${item.name}</h5>
+                    <p>Price: $${item.price.toFixed(2)}</p>
+                    <p>Quantity: ${item.quantity}</p>
+                    <p>Total: $${itemTotal.toFixed(2)}</p>
+                </div>
+            `;
+        });
+    }
+
+    // Set the total order amount
+    orderTotalElem.textContent = totalPrice.toFixed(2);
+}
+
+// Load cart items when the page loads
+window.onload = loadCartItems;
+
+    </script>
+    
+</body>
+</html>
